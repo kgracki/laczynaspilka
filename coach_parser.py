@@ -38,8 +38,8 @@ class CoachParser(object):
     def __init__(self):
         pass
 
-    def _parse_coach_data(self, name: str, lastname: str) -> []:
-        url = f'https://www.laczynaspilka.pl/trenerzy,1.html?type={name}+{lastname}&voivodeship=0&licence=0&submit=Filtruj'
+    def _parse_coach_data(self, licence: str) -> []:
+        url = f'https://www.laczynaspilka.pl/trenerzy,1.html?type={licence}&voivodeship=0&licence=0&submit=Filtruj'
         coach_list = []
         response = requests.get(url)
         if response.status_code == 200:
@@ -57,8 +57,8 @@ class CoachParser(object):
 
         return coach_list
 
-    def get_coach_info(self, name, lastname):
-        table_elements = self._parse_coach_data(name=name, lastname=lastname)
+    def get_coach_info(self, licence: str):
+        table_elements = self._parse_coach_data(licence=licence)
         if table_elements:
             for element in table_elements:
                 coach = self._get_coach_instance(element)
@@ -78,7 +78,6 @@ class CoachParser(object):
 
 
 if __name__ == '__main__':
-    name = str(sys.argv[1])
-    lastname = str(sys.argv[2])
+    licence = str(sys.argv[1])
     coach_parser = CoachParser()
-    coach_parser.get_coach_info(name=name, lastname=lastname)
+    coach_parser.get_coach_info(licence=licence)
